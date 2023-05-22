@@ -21,11 +21,11 @@ public class HibernateTest {
 
         //Task-1 - Navigating across relationships (Using member of)
         Subject science = em.find(Subject.class, 2);
-        TypedQuery<Student> query1 = em.createQuery("select student from Student student, Tutor tutor where student member of tutor.teachingGroup and :subject member of tutor.subjectsToTeach", Student.class);
+        Query query1 = em.createQuery("select tutor.teachingGroup from Tutor as tutor where :subject member of tutor.subjectsToTeach");
         query1.setParameter("subject", science);
-        List<Student> tutorsForScience = query1.getResultList();
+        List<Student> studentWithScienceTeacher = query1.getResultList();
         System.out.println("Students whose tutor can teach science:");
-        for (Student student : tutorsForScience) {
+        for (Student student : studentWithScienceTeacher) {
             System.out.println(student);
         }
 
